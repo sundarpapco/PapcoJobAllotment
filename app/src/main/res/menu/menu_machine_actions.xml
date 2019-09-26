@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item android:id="@+id/action_complete_job"
+      android:title="Mark as complete"/>
+
+  <item android:id="@+id/action_remove_job_from_queue"
+      android:title="Remove this Job"
+      app:showAsAction="ifRoom"/>
+
+</menu>

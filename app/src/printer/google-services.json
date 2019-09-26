@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "448801811359",
+    "firebase_url": "https://papcojoballotment.firebaseio.com",
+    "project_id": "papcojoballotment",
+    "storage_bucket": "papcojoballotment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448801811359:android:e3edadad55c43726e4abaa",
+        "android_client_info": {
+          "package_name": "com.papco.sundar.papcojoballotment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448801811359-sokq9sgv4k8gdit6pnlrfkdqr7gbt5j0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.papco.sundar.papcojoballotment",
+            "certificate_hash": "e545916c68041d03c75b29502367da3f88536a3a"
+          }
+        },
+        {
+          "client_id": "448801811359-955f7t7bs5birqj9tnfr74c19sd785ko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfAxRHaGEm8Kk_k09gs6wX_ldiwMW_4Hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448801811359-955f7t7bs5birqj9tnfr74c19sd785ko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448801811359:android:d3ffa9b0678f6e87e4abaa",
+        "android_client_info": {
+          "package_name": "com.papco.sundar.papcojoballotment.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448801811359-955f7t7bs5birqj9tnfr74c19sd785ko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfAxRHaGEm8Kk_k09gs6wX_ldiwMW_4Hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448801811359-955f7t7bs5birqj9tnfr74c19sd785ko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448801811359:android:5d7fb36b28f1ec0fe4abaa",
+        "android_client_info": {
+          "package_name": "com.papco.sundar.papcojoballotment.printer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448801811359-955f7t7bs5birqj9tnfr74c19sd785ko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfAxRHaGEm8Kk_k09gs6wX_ldiwMW_4Hg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448801811359-955f7t7bs5birqj9tnfr74c19sd785ko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
