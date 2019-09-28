@@ -14,6 +14,8 @@ import com.papco.sundar.papcojoballotment.documents.PrintJob
 import com.papco.sundar.papcojoballotment.utility.EventMessage
 import kotlinx.android.synthetic.main.fragment_machine.*
 import kotlinx.android.synthetic.main.loading_bar.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MachineFragment:Fragment(),
     MachineJobsAdapterListener,
@@ -32,8 +34,9 @@ class MachineFragment:Fragment(),
         }
     }
 
-    private val confimationCompleteJob=1
-    private val confirmationRemoveJob=2
+    private val confirmIdCompleteJob=1
+    private val confirmIdRemoveJob=2
+    private val lastCompletionTextFormat="dd/MM/yyyy, hh:mm a"
 
     private val viewModel:MachineFragmentVH by lazy{
         ViewModelProviders.of(this).get(MachineFragmentVH::class.java)
@@ -79,6 +82,7 @@ class MachineFragment:Fragment(),
             }else{
                 setTitle(it.name)
                 setSubTitle("${it.duration} in ${it.jobCount} jobs")
+                updateLastCompletionTimeStamp(it.lastCompletion)
             }
 
         })
@@ -149,11 +153,72 @@ class MachineFragment:Fragment(),
         loading_progress_bar.visibility = View.GONE
     }
 
+    private fun showCompleteConfirmationDialog(){
+        ConfirmationDialog.getInstance("Mark this job as complete?",
+            "COMPLETE",confirmIdCompleteJob)
+            .show(childFragmentManager,ConfirmationDialog.TAG)
+    }
+
+    private fun showRemoveConfirmationDialog(){
+        ConfirmationDialog.getInstance("Remove this job from list?",
+            "REMOVE",confirmIdRemoveJob)
+            .show(childFragmentManager,ConfirmationDialog.TAG)
+    }
+
+    override fun onConfirmationDialogConfirm(confirmationId: Int) {
+        when(confirmationId){
+            confirmIdCompleteJob->{
+                viewModel.completeJob()
+            }
+            confirmIdRemoveJob->{
+                viewModel.removeJobFromQueue()
+            }
+        }
+    }
+
+    private fun getPlaceId():String{
+        arguments?.let { return it.getString(KEY_MACHINE_ID, INVALID_ID) }
+        return INVALID_ID
+    }
+
+    private fun updateLastCompletionTimeStamp(completionTime:Long){
+
+        when(completionTime){
+            0L->{
+                last_completion_text.text=requireActivity()
+                    .getString(R.string.default_last_completion)
+            }
+            else->{
+                last_completion_text.text=requireActivity().let {
+                    String.format(it.getString(R.string.last_completion_format),
+                        SimpleDateFormat(lastCompletionTextFormat,Locale.getDefault())
+                            .format(Date(completionTime)))
+                }
+            }
+        }
+    }
+
+    private fun completeJob(job:PrintJob){
+        viewModel.selectedJob=job
+        showCompleteConfirmationDialog()
+    }
+
+    private fun removeJobFromQueue(job:PrintJob){
+        viewModel.selectedJob=job
+        showRemoveConfirmationDialog()
+    }
+
+    //region ------ Adapter callbacks
+
     override fun onJobClicked(job: PrintJob) {
 
     }
 
-    override fun onJobLongClicked(view: View, job: PrintJob) {
+    override fun onJobLongClicked(position:Int, view: View, job: PrintJob) {
+
+        if(isPrinterVersionApp() && position!=0)
+            return
+
         val popup=PopupMenu(requireContext(),view)
 
         popup.menuInflater.inflate(R.menu.menu_machine_actions,popup.menu)
@@ -179,45 +244,10 @@ class MachineFragment:Fragment(),
         popup.show()
     }
 
-    private fun completeJob(job:PrintJob){
-        viewModel.selectedJob=job
-        showCompleteConfirmationDialog()
-    }
-
-    private fun removeJobFromQueue(job:PrintJob){
-        viewModel.selectedJob=job
-        showRemoveConfirmationDialog()
-    }
-
     override fun onJobMoved(movedJob: PrintJob) {
         viewModel.moveJob(movedJob)
     }
 
-    private fun showCompleteConfirmationDialog(){
-        ConfirmationDialog.getInstance("Mark this job as complete?",
-            "COMPLETE",confimationCompleteJob)
-            .show(childFragmentManager,ConfirmationDialog.TAG)
-    }
+    //endregion
 
-    private fun showRemoveConfirmationDialog(){
-        ConfirmationDialog.getInstance("Remove this job from list?",
-            "REMOVE",confirmationRemoveJob)
-            .show(childFragmentManager,ConfirmationDialog.TAG)
-    }
-
-    override fun onConfirmationDialogConfirm(confirmationId: Int) {
-        when(confirmationId){
-            confimationCompleteJob->{
-                viewModel.completeJob()
-            }
-            confirmationRemoveJob->{
-                viewModel.removeJobFromQueue()
-            }
-        }
-    }
-
-    private fun getPlaceId():String{
-        arguments?.let { return it.getString(KEY_MACHINE_ID, INVALID_ID) }
-        return INVALID_ID
-    }
 }

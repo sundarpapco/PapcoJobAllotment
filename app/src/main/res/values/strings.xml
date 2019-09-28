@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Papco Jobs</string>
+    <string name="app_name">Jobs</string>
+    <string name="last_completion_format">Last completion: %1$s</string>
+    <string name="default_last_completion">Last completion: Unknown</string>
 </resources>

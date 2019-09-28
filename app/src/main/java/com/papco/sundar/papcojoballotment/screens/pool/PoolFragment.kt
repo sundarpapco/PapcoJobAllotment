@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.papco.sundar.papcojoballotment.MainActivity
-import com.papco.sundar.papcojoballotment.MainActivityVM
 import com.papco.sundar.papcojoballotment.R
 import com.papco.sundar.papcojoballotment.common.*
 import com.papco.sundar.papcojoballotment.documents.PrintJob
@@ -32,10 +31,6 @@ class PoolFragment : Fragment(),
 
     private val viewModel: PoolFragmentVM by lazy {
         ViewModelProviders.of(this).get(PoolFragmentVM::class.java)
-    }
-
-    private val activityViewModel: MainActivityVM by lazy {
-        ViewModelProviders.of(requireActivity()).get(MainActivityVM::class.java)
     }
 
     private val adapter: JobsAdapter by lazy {
@@ -63,13 +58,6 @@ class PoolFragment : Fragment(),
         })
 
         viewModel.eventBus.observe(viewLifecycleOwner, Observer {
-            if (it.isAlreadyHandled)
-                return@Observer
-
-            handleMessage(it)
-        })
-
-        activityViewModel.eventBus.observe(viewLifecycleOwner, Observer {
             if (it.isAlreadyHandled)
                 return@Observer
 

@@ -8,6 +8,7 @@ data class Place(
   var duration:Duration = Duration(0,0),
   var jobCount:Int=0,
   var jobCounter:Int=0,
+  var lastCompletion:Long=0,
   var reserved:Boolean=false){
 
   fun jobDetails():String{

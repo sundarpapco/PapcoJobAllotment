@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.papco.sundar.papcojoballotment.common.isPrinterVersionApp
 import com.papco.sundar.papcojoballotment.screens.home.HomeFragment
 import com.papco.sundar.papcojoballotment.screens.places.PlacesActivity
@@ -57,17 +56,16 @@ class MainActivity : AppCompatActivity() {
         if(resultCode==Activity.RESULT_OK){
             when(requestCode){
                 REQUEST_PICK_PLACE_FOR_ALLOTMENT->{
-                    val placeId=data?.extras?.getString(PlacesActivity.KEY_RESULT_PLACE_SELECTED)
-                    placeId?.let { dispatchPlaceIdToPoolFragment(it) }
+                    PlacesActivity.selectedPlaceFromIntent(data)
+                        ?.let{dispatchPlaceIdToPoolFragment(it)}
                 }
             }
         }
     }
 
     private fun dispatchPlaceIdToPoolFragment(placeId:String) {
-        val poolFragment:Fragment?=supportFragmentManager.findFragmentByTag(PoolFragment.TAG)
-        poolFragment?.let {
-            (poolFragment as PoolFragment).onAllotConfirm(placeId)
+        supportFragmentManager.findFragmentByTag(PoolFragment.TAG)?.let {
+            (it as PoolFragment).onAllotConfirm(placeId)
         }
     }
 }

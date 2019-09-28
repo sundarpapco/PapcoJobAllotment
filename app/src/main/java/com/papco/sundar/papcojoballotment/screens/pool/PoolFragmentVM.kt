@@ -72,12 +72,10 @@ class PoolFragmentVM(app: Application) : AndroidViewModel(app) {
   }
 
   fun deleteJobs(jobIds:MutableSet<String>){
-    eventBus.postValue(EventMessage(EventMessage.EVENT_TRANSACTION_START,"One moment please"))
     runTransaction(DeleteJobsTransaction(jobIds))
   }
 
   fun allotJobs(placeId:String,jobIds:MutableSet<String>){
-    eventBus.postValue(EventMessage(EventMessage.EVENT_TRANSACTION_START,"One moment please"))
     runTransaction(AllotJobsTransaction(jobIds,placeId))
   }
 
@@ -93,6 +91,8 @@ class PoolFragmentVM(app: Application) : AndroidViewModel(app) {
   }
 
   private fun runTransaction(transaction: Transaction.Function<Unit>){
+
+    eventBus.postValue(EventMessage(EventMessage.EVENT_TRANSACTION_START,"One moment please"))
 
     db.runTransaction(transaction)
       .addOnSuccessListener {

@@ -7,23 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.papco.sundar.papcojoballotment.MainActivityVM
 import com.papco.sundar.papcojoballotment.R
 import com.papco.sundar.papcojoballotment.common.disableUpNavigation
 import com.papco.sundar.papcojoballotment.common.setSubTitle
 import com.papco.sundar.papcojoballotment.common.setTitle
-import com.papco.sundar.papcojoballotment.common.toast
 import com.papco.sundar.papcojoballotment.documents.Place
 import com.papco.sundar.papcojoballotment.screens.places.placesfragment.PlaceFragment
 import com.papco.sundar.papcojoballotment.screens.pool.PoolFragment
-import com.papco.sundar.papcojoballotment.utility.EventMessage
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment:Fragment() {
-
-    private val activityViewModel:MainActivityVM by lazy {
-        ViewModelProviders.of(requireActivity()).get(MainActivityVM::class.java)
-    }
 
     private val viewModel:HomeFragmentVM by lazy{
         ViewModelProviders.of(this).get(HomeFragmentVM::class.java)
@@ -82,11 +75,6 @@ class HomeFragment:Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        activityViewModel.eventBus.observe(viewLifecycleOwner, Observer {event->
-            if(!event.isAlreadyHandled)
-                handleMessage(event)
-        })
-
         viewModel.totalDocumentLive.observe(viewLifecycleOwner, Observer{
             updateTotalDetails(it)
         })
@@ -105,16 +93,6 @@ class HomeFragment:Fragment() {
         setTitle("Papco Jobs")
         setSubTitle("")
         disableUpNavigation()
-    }
-
-    private fun handleMessage(event: EventMessage) {
-        when(event.msgType){
-            EventMessage.EVENT_PLACE_SELECTED->{
-                event.isAlreadyHandled=true
-                toast("Selected place with id ${event.data as String}")
-            }
-        }
-
     }
 
     private fun launchManagePlaceScreen() {

@@ -144,7 +144,8 @@ class MachineJobsAdapter(
       }
 
       view.setOnLongClickListener{
-        callback.onJobLongClicked(it,data[adapterPosition])
+
+        callback.onJobLongClicked(adapterPosition,it,data[adapterPosition])
         true
       }
 
@@ -218,6 +219,6 @@ class MachineDiffUpdateCallBack(private val adapter: MachineJobsAdapter) : ListU
 
 interface MachineJobsAdapterListener {
   fun onJobClicked(job: PrintJob)
-  fun onJobLongClicked(view:View,job:PrintJob)
+  fun onJobLongClicked(position:Int,view:View,job:PrintJob)
   fun onJobMoved(movedJob:PrintJob)
 }

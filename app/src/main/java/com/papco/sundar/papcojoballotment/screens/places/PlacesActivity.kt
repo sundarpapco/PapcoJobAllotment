@@ -22,6 +22,11 @@ class PlacesActivity : AppCompatActivity(){
             startingIntent.putExtras(args)
             return startingIntent
         }
+
+        fun selectedPlaceFromIntent(data:Intent?):String?{
+
+            return data?.extras?.getString(KEY_RESULT_PLACE_SELECTED)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
