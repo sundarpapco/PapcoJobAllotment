@@ -239,6 +239,8 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
         return when {
             resultString.isBlank() -> {
                 resultJob.date = fragment_job_date.text.toString()
+                if(urgent_switch.isChecked)
+                    resultJob.isUrgent=true
                 resultJob
             }
             else -> {
@@ -258,6 +260,8 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
         fragment_job_hours.setText(job.runningTime.hours.toString())
         fragment_job_minutes.setText(job.runningTime.minutes.toString())
         fragment_job_pending.setText(job.pendingReason)
+        if(job.isUrgent)
+            urgent_switch.isChecked=true
 
     }
 

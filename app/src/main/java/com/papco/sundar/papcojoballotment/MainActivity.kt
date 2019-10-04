@@ -9,6 +9,7 @@ import com.papco.sundar.papcojoballotment.common.isPrinterVersionApp
 import com.papco.sundar.papcojoballotment.screens.home.HomeFragment
 import com.papco.sundar.papcojoballotment.screens.places.PlacesActivity
 import com.papco.sundar.papcojoballotment.screens.pool.PoolFragment
+import com.papco.sundar.papcojoballotment.utility.Duration
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null)
             loadHomeFragment()
-
     }
 
     private fun launchInPrinterVersionIfNecessary() {

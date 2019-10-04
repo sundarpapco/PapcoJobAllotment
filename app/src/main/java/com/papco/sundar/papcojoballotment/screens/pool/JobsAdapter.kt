@@ -2,6 +2,7 @@ package com.papco.sundar.papcojoballotment.screens.pool
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.media.Image
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -205,6 +206,7 @@ class JobsAdapter(
         private val colorDetails: TextView = view.findViewById(R.id.list_item_job_color)
         private val runningTime: TextView = view.findViewById(R.id.list_item_job_time)
         private val dragHandle: ImageView = view.findViewById(R.id.list_item_job_drag_handle)
+        private val starView:ImageView=view.findViewById(R.id.list_item_job_star)
 
         init {
             view.setOnClickListener {
@@ -253,6 +255,11 @@ class JobsAdapter(
                 clientName.setTextColor(Color.BLACK)
             else
                 clientName.setTextColor(pendingRedColor)
+
+            if(data[adapterPosition].isUrgent)
+                starView.visibility=View.VISIBLE
+            else
+                starView.visibility=View.INVISIBLE
         }
 
         private fun addToSelection() {

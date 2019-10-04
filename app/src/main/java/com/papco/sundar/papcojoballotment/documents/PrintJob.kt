@@ -9,6 +9,7 @@ import java.util.*
 
 data class PrintJob(
     var id: String = "_id",
+    var isUrgent:Boolean=false,
     var date: String="17/09/2019",
     var poNumber: String = "0",
     var client: String = "Dafault customer",

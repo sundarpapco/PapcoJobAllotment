@@ -1,12 +1,37 @@
 package com.papco.sundar.papcojoballotment.utility
 
-data class Duration(var hours: Int = 0, var minutes: Int = 0) {
+import kotlin.math.roundToInt
+
+class Duration(hours: Int = 0, minutes: Int = 0) {
 
     companion object {
 
         fun fromMinutes(minutes: Int): Duration {
             return Duration(minutes / 60, minutes % 60)
         }
+    }
+
+
+    var hours:Int=0
+    set(value){
+        field = if(value<0) 0 else value
+    }
+
+    var minutes:Int=0
+    set(value){
+        when{
+            value < 0 ->{ field=0}
+            value >=60 ->{
+                hours+=value/60
+                field = value%60
+            }
+            else->{field=value}
+        }
+    }
+
+    init {
+        this.hours=hours
+        this.minutes= minutes
     }
 
     operator fun plus(duration: Duration): Duration {
@@ -27,6 +52,14 @@ data class Duration(var hours: Int = 0, var minutes: Int = 0) {
         }
     }
 
+    fun divideBy(number:Int):Duration{
+        if(number==0)
+            return this
+
+        val resultMins=inMinutes()/number
+        return Duration(0,resultMins)
+    }
+
     private fun inMinutes(): Int {
         return hours * 60 + minutes
     }
@@ -44,10 +77,10 @@ data class Duration(var hours: Int = 0, var minutes: Int = 0) {
         return "$hours Hours, $minutes Mins"
     }
 
-    fun daysOfWork(workingHourPerDay: Int): String {
+    fun daysOfWork(): String {
         var result = 0.0
-        val workingMinsPerDay = workingHourPerDay * 60
-        val days = inMinutes() / (workingMinsPerDay*2)
+        val workingMinsPerDay = 11*2* 60 //11 hours X 2 Machines X 60 minutes per hour
+        val days = inMinutes() / workingMinsPerDay
         val noOfDays: String
         val dayOrDays: String
 
@@ -59,7 +92,7 @@ data class Duration(var hours: Int = 0, var minutes: Int = 0) {
             in 1..(workingMinsPerDay/2) -> {
                 result = days + 0.5
             }
-            in 331..workingMinsPerDay -> {
+            in workingMinsPerDay/2+1..workingMinsPerDay -> {
                 result = days+1.0
             }
         }
@@ -74,5 +107,20 @@ data class Duration(var hours: Int = 0, var minutes: Int = 0) {
             result.toString()
 
         return "$noOfDays $dayOrDays of work approx"
+    }
+
+    fun asDecimal():Double{
+        return hours.toDouble()+ ((minutes.toDouble()/60.0*100).roundToInt()).toDouble()/100.0
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other==null) return false
+        val arg:Duration
+        try{
+            arg=other as Duration
+        }catch (e:Exception){
+            return false
+        }
+        return hours==arg.hours && minutes==arg.minutes
     }
 }
