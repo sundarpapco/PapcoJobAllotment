@@ -18,7 +18,8 @@ data class PrintJob(
     var runningTime: Duration = Duration(1, 30),
     var position: Double = 0.0,
     var completedOn: Long = 0,
-    var pendingReason:String=""
+    var pendingReason:String="",
+    var spotColourMakeReady:Boolean=false
 ) {
     @Exclude private val oneDay: Long = 86400000
     @Exclude var ageString=""

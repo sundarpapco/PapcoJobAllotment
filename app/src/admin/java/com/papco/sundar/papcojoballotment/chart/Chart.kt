@@ -59,12 +59,12 @@ class ChartValues(val monthOfYear:Int,val year:Int){
     var isChartPointsLoaded=false
         private set
 
-    fun loadChartPoints(documents:List<DocumentSnapshot?>){
+    suspend fun loadChartPoints(documents:List<DocumentSnapshot?>){
 
         if(isChartPointsLoaded)
             return
 
-        var chartPoints:MutableList<BarEntry> =ArrayList()
+        val chartPoints:MutableList<BarEntry> =ArrayList()
         var jobListIndex=0
         var chartPoint: ChartPoint
         var printJob:PrintJob?

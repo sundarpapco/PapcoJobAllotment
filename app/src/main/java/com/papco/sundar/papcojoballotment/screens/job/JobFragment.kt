@@ -14,10 +14,12 @@ import com.papco.sundar.papcojoballotment.common.*
 import com.papco.sundar.papcojoballotment.documents.PrintJob
 import com.papco.sundar.papcojoballotment.utility.Duration
 import com.papco.sundar.papcojoballotment.utility.EventMessage
+import com.papco.sundar.papcojoballotment.utility.PatternChecker
 import kotlinx.android.synthetic.main.fragment_job.*
 import kotlinx.android.synthetic.main.fragment_job.view.*
 
-class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
+class JobFragment : Fragment(), DatePickerFragment.DatePickerDialogListener,
+    QuantityExpFragment.QuantityExpressionListener {
 
 
     companion object {
@@ -32,6 +34,8 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
 
         }
     }
+
+    private var spotColourMakereadyIncluded:Boolean=false
 
     private val viewModel: JobFragmentVM by lazy {
         val viewModel = ViewModelProviders.of(this).get(JobFragmentVM::class.java)
@@ -53,6 +57,9 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
         view.fragment_job_date.setText(DatePickerFragment.now())
         view.fragment_job_date.setOnClickListener {
             showDatePickerDialog((it as TextView).text.toString())
+        }
+        view.fragment_job_expression_image.setOnClickListener {
+            showQuantityExpressionDialog()
         }
         return view
     }
@@ -153,6 +160,10 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
 
     }
 
+    private fun showQuantityExpressionDialog() {
+        QuantityExpFragment().show(childFragmentManager, QuantityExpFragment.TAG)
+    }
+
     private fun hideWaitDialog() {
         fragmentManager?.let {
             val waitFragment: DialogFragment? =
@@ -235,12 +246,13 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
             resultJob.runningTime = Duration(hours, minutes)
 
         resultJob.pendingReason = fragment_job_pending.text.toString().trim()
+        resultJob.spotColourMakeReady=spotColourMakereadyIncluded
 
         return when {
             resultString.isBlank() -> {
                 resultJob.date = fragment_job_date.text.toString()
-                if(urgent_switch.isChecked)
-                    resultJob.isUrgent=true
+                if (urgent_switch.isChecked)
+                    resultJob.isUrgent = true
                 resultJob
             }
             else -> {
@@ -260,8 +272,9 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
         fragment_job_hours.setText(job.runningTime.hours.toString())
         fragment_job_minutes.setText(job.runningTime.minutes.toString())
         fragment_job_pending.setText(job.pendingReason)
-        if(job.isUrgent)
-            urgent_switch.isChecked=true
+        if (job.isUrgent)
+            urgent_switch.isChecked = true
+        spotColourMakereadyIncluded = job.spotColourMakeReady
 
     }
 
@@ -269,9 +282,18 @@ class JobFragment : Fragment(),DatePickerFragment.DatePickerDialogListener {
         fragment_job_date.setText(date)
     }
 
-    private fun hideKeyBoard(){
-        val imm=requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(fragment_job_po_number.windowToken,0)
+    override fun onNewQuantityExpression(expression: String) {
+        val pattern=PatternChecker(expression)
+        val duration=pattern.totalTime()
+        fragment_job_hours.setText(duration.hours.toString())
+        fragment_job_minutes.setText(duration.minutes.toString())
+        spotColourMakereadyIncluded=pattern.hasExtraColour
+    }
+
+    private fun hideKeyBoard() {
+        val imm =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(fragment_job_po_number.windowToken, 0)
     }
 
 

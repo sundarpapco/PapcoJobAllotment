@@ -60,7 +60,7 @@ class Duration(hours: Int = 0, minutes: Int = 0) {
         return Duration(0,resultMins)
     }
 
-    private fun inMinutes(): Int {
+    fun inMinutes(): Int {
         return hours * 60 + minutes
     }
 

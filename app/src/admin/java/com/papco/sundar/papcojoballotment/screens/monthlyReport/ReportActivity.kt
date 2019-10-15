@@ -8,11 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.BarDataSet
+import com.papco.sundar.papcojoballotment.R
 import com.papco.sundar.papcojoballotment.chart.ChartValues
 import com.papco.sundar.papcojoballotment.chart.DateAxisFormatter
 import com.papco.sundar.papcojoballotment.chart.DurationAxisFormatter
-import com.papco.sundar.papcojoballotment.R
 import com.papco.sundar.papcojoballotment.common.MonthPickerDialogFragment
 import kotlinx.android.synthetic.admin.activity_report.*
 import kotlinx.android.synthetic.main.loading_bar.*
@@ -64,26 +63,15 @@ class ReportActivity : AppCompatActivity(), MonthPickerDialogFragment.MonthSelec
 
     private fun initChartView() {
 
-        //chart.setOnChartValueSelectedListener(this)
-
         chart.setDrawBarShadow(false)
         chart.setDrawValueAboveBar(true)
-
         chart.description.isEnabled = false
-
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
         chart.setMaxVisibleValueCount(60)
-
-        // scaling can now only be done on x- and y-axis separately
         chart.setPinchZoom(true)
-
         chart.setDrawGridBackground(false)
-        // chart.setDrawYLabels(false);
 
+        //X Axis
         val xAxisFormatter = DateAxisFormatter()
-
-
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         //xAxis.typeface = tfLight
@@ -92,37 +80,22 @@ class ReportActivity : AppCompatActivity(), MonthPickerDialogFragment.MonthSelec
         xAxis.labelCount = 15
         xAxis.valueFormatter = xAxisFormatter
 
+        //Y Axis
         val yAxisFormatter = DurationAxisFormatter()
-
         val leftAxis = chart.getAxisLeft()
-        //leftAxis.setTypeface(tfLight)
         leftAxis.setLabelCount(8, false)
         leftAxis.valueFormatter = yAxisFormatter
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
         leftAxis.spaceTop = 15f
         leftAxis.axisMinimum = 0f // this replaces setStartAtZero(true)
 
+        //Right Axis
         val rightAxis = chart.axisRight
         rightAxis.setDrawGridLines(false)
-        //rightAxis.setTypeface(tfLight)
         rightAxis.setLabelCount(8, false)
         rightAxis.valueFormatter = yAxisFormatter
         rightAxis.spaceTop = 15f
         rightAxis.axisMinimum = 0f // this replaces setStartAtZero(true)
-
-        /*val l = chart.getLegend()
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM)
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT)
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL)
-        l.setDrawInside(false)
-        l.setForm(Legend.LegendForm.SQUARE)
-        l.setFormSize(9f)
-        l.setTextSize(11f)
-        l.setXEntrySpace(4f)*/
-
-        /*val mv = XYMarkerView(this, xAxisFormatter)
-        mv.setChartView(chart) // For bounds control
-        chart.setMarker(mv) // Set the marker to the chart*/
 
     }
 

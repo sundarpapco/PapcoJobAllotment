@@ -260,6 +260,11 @@ class JobsAdapter(
                 starView.visibility=View.VISIBLE
             else
                 starView.visibility=View.INVISIBLE
+
+            if(data[adapterPosition].spotColourMakeReady)
+                colorDetails.setTextColor(Color.parseColor("#CA00B6"))
+            else
+                colorDetails.setTextColor(Color.parseColor("#000000"))
         }
 
         private fun addToSelection() {
