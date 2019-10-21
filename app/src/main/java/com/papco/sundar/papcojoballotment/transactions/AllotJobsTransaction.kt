@@ -36,7 +36,7 @@ class AllotJobsTransaction(private val jobIds:MutableSet<String>,val placeId:Str
         "Destination machine not found",
         FirebaseFirestoreException.Code.ABORTED)
 
-    //Destination Place document
+    //Pool Place document (Source document)
     poolDocument=transaction.get(poolReference)
     if(poolDocument.exists()){
       pool=poolDocument.toObject(Place::class.java)

@@ -34,6 +34,8 @@ class MachineJobsAdapter(
   private val coroutineScope=activity.lifecycleScope
   var dragHelper:ItemTouchHelper?=null
   private val diffCallBack=MachineDiffUpdateCallBack(this)
+  private val clrSpotColorMakeReady=Color.parseColor("#CA00B6")
+  private val clrBlack=Color.parseColor("#000000")
 
   private var pendingRedColor:Int = if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.M){
     activity.getColor(R.color.pendingRed)
@@ -181,8 +183,12 @@ class MachineJobsAdapter(
         starView.visibility=View.VISIBLE
       else
         starView.visibility=View.INVISIBLE
-    }
 
+      if(data[adapterPosition].spotColourMakeReady)
+        colorDetails.setTextColor(clrSpotColorMakeReady)
+      else
+        colorDetails.setTextColor(clrBlack)
+    }
   }
 }
 

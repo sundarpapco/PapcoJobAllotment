@@ -34,6 +34,8 @@ class JobsAdapter(
     private var actionMode: ActionMode? = null
     private val coroutineScope = activity.lifecycleScope
     private val diffCallback = DiffUpdateCallBack(this)
+    private val clrSpotColorMakeReady=Color.parseColor("#CA00B6")
+    private val clrBlack=Color.parseColor("#000000")
     var dragHelper: ItemTouchHelper? = null
 
     init {
@@ -262,9 +264,9 @@ class JobsAdapter(
                 starView.visibility=View.INVISIBLE
 
             if(data[adapterPosition].spotColourMakeReady)
-                colorDetails.setTextColor(Color.parseColor("#CA00B6"))
+                colorDetails.setTextColor(clrSpotColorMakeReady)
             else
-                colorDetails.setTextColor(Color.parseColor("#000000"))
+                colorDetails.setTextColor(clrBlack)
         }
 
         private fun addToSelection() {

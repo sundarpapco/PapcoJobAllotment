@@ -36,6 +36,7 @@ class JobFragment : Fragment(), DatePickerFragment.DatePickerDialogListener,
     }
 
     private var spotColourMakereadyIncluded:Boolean=false
+    private val KEY_SPOT_COLOR_MAKE_READY="spot_color_status"
 
     private val viewModel: JobFragmentVM by lazy {
         val viewModel = ViewModelProviders.of(this).get(JobFragmentVM::class.java)
@@ -46,6 +47,7 @@ class JobFragment : Fragment(), DatePickerFragment.DatePickerDialogListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        restoreSavedState(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -64,6 +66,14 @@ class JobFragment : Fragment(), DatePickerFragment.DatePickerDialogListener,
         return view
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_SPOT_COLOR_MAKE_READY,spotColourMakereadyIncluded)
+    }
+
+    private fun restoreSavedState(savedInstanceState: Bundle?){
+        spotColourMakereadyIncluded=savedInstanceState?.getBoolean(KEY_SPOT_COLOR_MAKE_READY)?:false
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
